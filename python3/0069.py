@@ -1,9 +1,10 @@
 class Solution:
     def mySqrt(self, x: int) -> int:
         # 二分法
+        # 执行用时 :60 ms, 在所有 Python3 提交中击败了30.76%的用户
         start=0
         end=x
-        m=(end+start)//2
+        # m=(end+start)//2
         while(end>=start):
             m = (end+start)//2
             if m**2<=x and (m+1)**2>x:
@@ -26,9 +27,9 @@ class Solution:
 
 if __name__ == "__main__":
     s=Solution()
-    print(s.mySqrt2(1))   # 1
-    print(s.mySqrt2(2))   # 1
-    print(s.mySqrt2(0))   # 0
-    print(s.mySqrt2(4))   # 2
-    print(s.mySqrt2(8))   # 2
-    print(s.mySqrt2(9))   # 3
+    print(s.mySqrt(1))   # 1
+    print(s.mySqrt(2))   # 1
+    print(s.mySqrt(0))   # 0
+    print(s.mySqrt(4))   # 2
+    print(s.mySqrt(8))   # 2
+    print(s.mySqrt(9))   # 3
