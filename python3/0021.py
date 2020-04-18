@@ -21,3 +21,19 @@ class Solution:
         
         pN.next=l1 if l1 else l2 # 当l1和l2长度不等时，l1或者l2后续部分接上新节点
         return new.next          # 返回从空节点起的节点
+
+    def mergeTwoLists2(self,l1:ListNode,l2:ListNode)-> ListNode:
+        # 递归法
+        # 因为两个链表已经排好序，所以，取表头更小的那个为最新值，对其后的两链表再进行递归求解
+        if not l1:
+            return l2
+        elif not l2:
+            return l1
+        elif l1.val <l2.val:
+            # l1的头节点更小
+            l1.next=self.mergeTwoLists2(l1.next,l2)
+            return l1
+        else:
+            # l2的头节点更小
+            l2.next=self.mergeTwoLists2(l1,l2.next)
+            return l2
