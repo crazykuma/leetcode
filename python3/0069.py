@@ -4,7 +4,6 @@ class Solution:
         # 执行用时 :60 ms, 在所有 Python3 提交中击败了30.76%的用户
         start=0
         end=x
-        # m=(end+start)//2
         while(end>=start):
             m = (end+start)//2
             if m**2<=x and (m+1)**2>x:
@@ -15,6 +14,22 @@ class Solution:
                 end = m-1
         
         return m
+
+    def mySqrt3(self, x: int) -> int:
+        # 二分查找框架
+        left=0
+        right=x
+        thread=0.0000000001
+        while left<right:
+            mid=(left+right)/2
+            if 0<mid*mid-x<thread:
+                return int(mid)
+            elif mid*mid>x:
+                right=mid-thread
+            else:
+                left=mid+thread
+
+        return int(left)
 
     def mySqrt2(self,x:int) -> int:
         # 执行用时 :36 ms, 在所有 Python3 提交中击败了90.52%的用户
