@@ -18,7 +18,26 @@ class Solution:
         else:
             return [i for i in range(2, n+1, 2)]+[0]+[i for i in range(-n+1, 0, 2)]
 
+    def sumZero2(self, n: int) -> List[int]:
+        # 这个方法更好理解，不用调奇数偶数，步长也可以随意设定
+        step=2
+        count=1
+        res=[]
+        k=n
+        while n>1:
+            res.append(step*count)
+            res.append(-step*count)
+            count+=1
+            n-=2
+        
+        # n==0orn==1
+        if len(res)==k-1:
+            res.append(0)
+
+        return res
+
 
 if __name__ == "__main__":
     s=Solution()
     assert sum(s.sumZero(5))==0
+    assert sum(s.sumZero2(5))==0
