@@ -91,7 +91,7 @@ class Solution:
                     return False
                 Rows[i][n] += 1
                 Cols[j][n] += 1
-                Cubes[(i//3)*3+j//3][n] += 1
+                Cubes[Cube_idx][n] += 1
 
         return True
 
