@@ -73,8 +73,30 @@ class Solution:
 
         return True
 
+    def isValidSudoku2(self, board: List[List[str]]) -> bool:
+        # 参考题解后解法 一次遍历
+        # 初始化数组
+        Rows = [[0]*10 for i in range(9)]
+        Cols = [[0]*10 for i in range(9)]
+        Cubes = [[0]*10 for i in range(9)]
+
+        for i in range(0, 9):
+            for j in range(0, 9):
+                if board[i][j] == '.':
+                    continue
+                # i行，j列，(i//3)*3+j//3号cube
+                n = int(board[i][j])
+                Cube_idx = (i//3)*3+j//3
+                if Rows[i][n] or Cols[j][n] or Cubes[Cube_idx][n]:
+                    return False
+                Rows[i][n] += 1
+                Cols[j][n] += 1
+                Cubes[(i//3)*3+j//3][n] += 1
+
+        return True
+
 
 if __name__ == "__main__":
     s = Solution()
-    print(s.isValidSudoku(case1))
-    print(s.isValidSudoku(case2))
+    print(s.isValidSudoku2(case1))
+    print(s.isValidSudoku2(case2))
