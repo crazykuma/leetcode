@@ -136,3 +136,32 @@ class Solution:
             # 指针指向右子节点
             p = p.right
         return True
+
+    def isValidBST6(self, root: TreeNode) -> bool:
+        # 中序遍历+yield法+迭代法
+        # 64ms:37.70%
+        # 16.5mb：9.52%
+
+        def yieldTree(root: TreeNode) -> TreeNode:
+            # yield法中序遍历
+            # yield生成一个可迭代对象，每次代码运行到yield后暂停，下次迭代时继续
+            if root.left:
+                for i in yieldTree(root.left):
+                    yield i
+            yield root.val
+
+            if root.right:
+                for i in yieldTree(root.right):
+                    yield i
+
+        if not root:
+            return True
+
+        pre = float("-inf")
+        for cur in yieldTree(root):
+            if cur <= pre:
+                return False
+            else:
+                pre = cur
+
+        return True
