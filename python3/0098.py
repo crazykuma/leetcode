@@ -12,7 +12,7 @@ class Solution:
         # 60ms
         # 15.8mb
 
-        def inorder(root, min_val, max_val):
+        def dfs(root, min_val, max_val):
             """深度优先搜索
 
             Arguments:
@@ -30,9 +30,9 @@ class Solution:
                 # 当子节点的值超出父节点的上下边界时，不是BST
                 return False
             else:
-                return inorder(root.left, min_val, root.val) and inorder(root.right, root.val, max_val)
+                return dfs(root.left, min_val, root.val) and dfs(root.right, root.val, max_val)
 
-        return inorder(root, float("-inf"), float("inf"))
+        return dfs(root, float("-inf"), float("inf"))
 
     def isValidBST2(self, root: TreeNode) -> bool:
         # 60ms:49.97%
@@ -107,3 +107,32 @@ class Solution:
             return True
 
         return inorder(root)
+
+    def isValidBST5(self, root: TreeNode) -> bool:
+        # 中序遍历+栈+迭代
+        # 56ms:65.11%
+        # 16mb:9.52%
+        if not root:
+            return True
+        stack = []
+        prev = float("-inf")
+        p = root              # 指针
+
+        while p or stack:
+            # push
+            while p:
+                # 将当前节点及其左子节点都加入栈中
+                stack.append(p)
+                p = p.left
+
+            # pop
+            p = stack.pop()
+            if p.val <= prev:
+                # 比较当前节点与前值
+                return False
+
+            prev = p.val
+
+            # 指针指向右子节点
+            p = p.right
+        return True
