@@ -12,7 +12,7 @@ class Solution:
         # 60ms
         # 15.8mb
 
-        def dfs(root, min_val, max_val):
+        def inorder(root, min_val, max_val):
             """深度优先搜索
 
             Arguments:
@@ -30,9 +30,9 @@ class Solution:
                 # 当子节点的值超出父节点的上下边界时，不是BST
                 return False
             else:
-                return dfs(root.left, min_val, root.val) and dfs(root.right, root.val, max_val)
+                return inorder(root.left, min_val, root.val) and inorder(root.right, root.val, max_val)
 
-        return dfs(root, float("-inf"), float("inf"))
+        return inorder(root, float("-inf"), float("inf"))
 
     def isValidBST2(self, root: TreeNode) -> bool:
         # 60ms:49.97%
@@ -57,3 +57,53 @@ class Solution:
                 return False
 
         return True
+
+    def isValidBST3(self, root: TreeNode) -> bool:
+        # 根据方法2中序遍历完成后再判断，可以进一步优化为
+        # 中序遍历+在递归过程中判断前后值，用数组也可以，这里不用数组
+        # 64ms:37.70%
+        # 16.4mb:9.52%
+        pre = float("-inf")
+
+        def inOrder(root):
+            nonlocal pre
+            if not root:
+                return True
+
+            if not inOrder(root.left):
+                # 当左子节点不满足中序遍历时返回False
+                return False
+            if root.val <= pre:
+                # 当前节点不满足中序遍历时返回False
+                return False
+            else:
+                # 当前节点满足中序遍历，将当前节点的值赋给pre作为前值
+                pre = root.val
+            if not inOrder(root.right):
+                # 当右子节点不满足中序遍历时返回False
+                return False
+            # 当所有遍历都完成且满足中序遍历，返回True
+            return True
+
+        return inOrder(root)
+
+    def isValidBST4(self, root: TreeNode) -> bool:
+        # 中序遍历+数组+中间判断的解法
+        # 56ms:65.11%
+        # 16.4mb：9.52%
+        res = [float("-inf")]
+
+        def inorder(root):
+            if not root:
+                return True
+            if not inorder(root.left):
+                return False
+            if root.val <= res[-1]:
+                return False
+            else:
+                res.append(root.val)
+            if not inorder(root.right):
+                return False
+            return True
+
+        return inorder(root)
