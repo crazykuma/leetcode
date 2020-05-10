@@ -31,7 +31,7 @@ class Solution:
                 nums1[k] = nums2[j]
                 j += 1
                 k += 1
-        
+
         while(i < m):
             nums1[k] = tmp[i]
             k += 1
@@ -42,6 +42,31 @@ class Solution:
             k += 1
             j += 1
 
+        return nums1
+
+    def merge3(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        """
+        Do not return anything, modify nums1 in-place instead.
+        """
+        # 从后往前排序
+        i = m+n-1
+        pos_A = m-1
+        pos_B = n-1
+        while pos_A > -1 and pos_B > -1:
+            # 比较A和B的最后两个数
+            if nums1[pos_A] >= nums2[pos_B]:
+                nums1[i] = nums1[pos_A]
+                i -= 1
+                pos_A -= 1
+            else:
+                nums1[i] = nums2[pos_B]
+                pos_B -= 1
+                i -= 1
+        # 当A已经排完而B还有数字
+        # 把B的剩余数字往A前面填
+        while pos_B > -1:
+            nums1[pos_B] = nums2[pos_B]
+            pos_B -= 1
         return nums1
 
 
