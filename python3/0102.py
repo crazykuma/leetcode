@@ -1,13 +1,38 @@
 # Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
+from typing import List
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
+
+
+class Tree:
+    def __init__(self, vals: List[int]):
+        if not vals:
+            self.root = []
+        self.root = TreeNode(vals.pop(0))
+        cur = [self.root]
+        while vals and cur:
+            node = cur.pop(0)
+            if vals[0] is not None:
+                node.left = TreeNode(vals.pop(0))
+                cur.append(node.left)
+            else:
+                vals.pop(0)
+
+            if vals[0] is not None:
+                node.right = TreeNode(vals.pop(0))
+                cur.append(node.right)
+            else:
+                vals.pop(0)
 
 
 class Solution:
     def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        # 36ms
         # 二叉树的层序遍历
         # 首先访问节点本身
         # 然后遍历他的相邻节点
@@ -34,3 +59,35 @@ class Solution:
 
         travel(level)  # 从第一层开始遍历
         return res
+
+    def levelOrder2(self, root: TreeNode) -> List[List[int]]:
+        # 32ms:96.81%
+        # 队列
+        if not root:
+            return []
+        res = []
+        values = []
+        stack = [root]
+        nextlevel = []
+        while stack:
+            node = stack.pop(0)
+            values.append(node.val)
+            if node.left:
+                nextlevel.append(node.left)
+            if node.right:
+                nextlevel.append(node.right)
+            if not stack:
+                stack = nextlevel
+                res.append(values)
+                values = []
+                nextlevel = []
+
+        return res
+
+
+if __name__ == "__main__":
+    s = Solution()
+    tree1 = Tree([3, 9, 20, None, None, 15, 7])
+    tree2 = Tree([1, 2, 3, 4, 5])
+    print(s.levelOrder2(tree1.root))
+    print(s.levelOrder2(tree2.root))
